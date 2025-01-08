@@ -1,2 +1,2 @@
-# lidd.github.io
+# LiDD
 Lightweight Intelligent DeepFake Detector
