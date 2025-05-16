@@ -1,4 +1,6 @@
 Flask
 torch
 lightning
-dlib
+Dlib==19.21.1
+opencv-python
+

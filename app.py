@@ -4,6 +4,9 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import dlib, cv2, random
 from PIL import Image
+import torchvision.transforms as T
+import lightning as L
+import collections
 
 
 class CustomNormalize(nn.Module):
