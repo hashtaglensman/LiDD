@@ -1,6 +1,7 @@
 Flask
 torch
 lightning
-Dlib==19.21.1
 opencv-python
+timm
+
 
