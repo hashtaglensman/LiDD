@@ -2,7 +2,7 @@
 import torch, torch.nn as nn
 from fastapi import FastAPI
 from pydantic import BaseModel
-import dlib, cv2, random
+import cv2, random
 from PIL import Image
 import torchvision.transforms as T
 import lightning as L
@@ -189,7 +189,7 @@ async def predict(
 
 
     with torch.no_grad():
-        logits = model(transform_1(batch))                       # (B,10)
+        _,logits,_ = model(transform_1(batch))                       # (B,10)
         preds = logits.argmax(1).tolist()           # list[int]
 
     # majority vote for overall prediction
