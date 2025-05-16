@@ -51,8 +51,6 @@ class LightningDeepFakeDetection_BB(L.LightningModule):
         return outputs, inputs
 
 
-
-
 class AttentionLayer(nn.Module):
     def __init__(self, input_dim, num_heads=4):
         super(AttentionLayer, self).__init__()
