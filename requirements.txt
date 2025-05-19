@@ -1,9 +1,7 @@
 -f --index-url https://download.pytorch.org/whl/cpu
 torch
 torchvision
+lightning
 pillow
-numpy
 opencv-python
 flask
-os
-lightning
