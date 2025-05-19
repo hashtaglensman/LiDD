@@ -13,7 +13,7 @@
     <h1 class="text-2xl font-bold mb-6 text-center">DeepFake&nbsp;Detector</h1>
 
     <!-- Video upload form -->
-    <form action="/predict" method="post" enctype="multipart/form-data" class="space-y-4">
+    <form action="{{ url_for('predict')}}" method="post" enctype="multipart/form-data" class="space-y-4">
       <label class="block">
         <span class="sr-only">Select a video file (.mp4)</span>
         <input type="file" name="video" accept="video/mp4" required
@@ -29,12 +29,12 @@
     </form>
 
     <!-- Prediction result -->
-    {% if pred %}
+    --- {% if pred %}
       <div class="mt-6 p-4 rounded-xl bg-gray-50 text-center">
         <p class="text-lg font-medium">Prediction:</p>
         <p class="text-2xl font-bold mt-2">{{ pred }}</p>
       </div>
-    {% endif %}
+    --{% endif %} 
   </div>
 
   <footer class="mt-6 text-gray-500 text-sm">

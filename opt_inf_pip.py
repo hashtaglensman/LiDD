@@ -26,7 +26,6 @@ import torchvision.transforms as T
 import lightning as L
 import collections
 
-
 __all__ = [
     "sample_frames",
     "frame_indices",
@@ -62,7 +61,6 @@ class CustomNormalize(nn.Module):
         normalized = normalized / (max_val + eps)
         
         return normalized
-    
 
 transform_ = T.Compose([
     T.Resize((224,224)),
@@ -93,7 +91,6 @@ class AttentionLayer(nn.Module):
         x, _ = self.attention(x, x, x)
         x = self.dropout(x)
         return x[:, 0]  # Return class token
-    
 
 class DF_Detection_V2(nn.Module):
     def __init__(self):
@@ -101,7 +98,6 @@ class DF_Detection_V2(nn.Module):
         self.project_layer = nn.Linear(1000, 512) 
         self.generator_model = self.Gen_model
         self.classifier_model = self.Classifier_model
-
         
         self.genlayer1 = nn.Linear(512, 256)
         self.genlayer2 =  nn.Linear(256, 512)
@@ -111,11 +107,9 @@ class DF_Detection_V2(nn.Module):
         self.attention_layer = AttentionLayer(input_dim=128)
         self.clflayer3 = nn.Linear(128, 2) #3
 
-
         self.batchnorm = nn.BatchNorm1d(512)
         self.batchnorm_ = nn.BatchNorm1d(256)
         self.layernorm = nn.LayerNorm(256)
-    
     
     def Gen_model(self, x):
         x_1 = nn.GELU()(self.genlayer1(x)) #x + feat_
@@ -136,7 +130,6 @@ class DF_Detection_V2(nn.Module):
         clf_out = self.classifier_model(proj_x, gen_out)
         return proj_x, clf_out, gen_out
 
-
 class LightningDeepFakeDetection_V2(L.LightningModule):
     def __init__(self):
         super().__init__()
@@ -152,7 +145,6 @@ model = LightningDeepFakeDetection_V2.load_from_checkpoint(path, map_location=de
 featmodel = LightningDeepFakeDetection_BB()#.load_from_checkpoint('models_lightning/BB/DeepFake_BB-epoch=11-val_acc=0.98-val_loss=0.46_FakeAVCeleb-v1.ckpt')
 featmodel.load_state_dict(torch.load('BB_mobilnet_weights_combined.pth', weights_only=False, map_location=device))
 featmodel.eval();
-
 
 def frame_indices(total: int, k: int) -> List[int]:
     """Return *k* unique random indices in the range ``[0, total)``.
@@ -199,8 +191,8 @@ def sample_frames(video_path: str, idxs: Sequence[int]) -> List[Image.Image]:
 def _batched_features(frames: Sequence[Image.Image]) -> torch.Tensor:
     """Apply preprocessing + feature network in one go."""
     batch = torch.stack([transform_(img) for img in frames])  # (B, C, H, W)
-    with torch.inference_mode():
-        feats = featmodel(batch)  # (B, F)
+    with torch.no_grad() and torch.inference_mode():
+            feats = featmodel(batch)  # (B, F)
     return CustomNormalize()(feats)
 
 def pred_cred(video_path: str, subset_sizes: Sequence[int] = (10, 15, 20)) -> int:
@@ -219,8 +211,8 @@ def pred_cred(video_path: str, subset_sizes: Sequence[int] = (10, 15, 20)) -> in
     feats = _batched_features(frames)  # (max_k, F)
 
     # classifier – single forward pass
-    with torch.inference_mode():
-        _, logits, _ = model(feats)
+    with torch.no_grad() and torch.inference_mode():
+            _, logits, _ = model(feats)
     preds = logits.argmax(1).cpu().numpy()  # (max_k,)
 
     # majority vote per subset
