@@ -23,7 +23,7 @@ from PIL import Image
 import torch, torch.nn as nn
 import cv2, random
 import torchvision.transforms as T
-import lightning as L
+# import lightning as L
 import collections
 
 __all__ = [
@@ -33,7 +33,7 @@ __all__ = [
 ]
 device = torch.device("cpu")
 
-class LightningDeepFakeDetection_BB(L.LightningModule):
+class LightningDeepFakeDetection_BB(nn.Module):#L.ightningModule):
     def __init__(self):
         super().__init__()
         self.model = torch.hub.load('pytorch/vision:v0.10.0', 'mobilenet_v2', pretrained=True)
@@ -130,7 +130,7 @@ class DF_Detection_V2(nn.Module):
         clf_out = self.classifier_model(proj_x, gen_out)
         return proj_x, clf_out, gen_out
 
-class LightningDeepFakeDetection_V2(L.LightningModule):
+class LightningDeepFakeDetection_V2(nn.Module):#L.LightningModule):
     def __init__(self):
         super().__init__()
         self.model = DF_Detection_V2().eval()
@@ -140,7 +140,10 @@ class LightningDeepFakeDetection_V2(L.LightningModule):
         return self.model(inputs)
     
 path ='DeepFake_Detection_V2-epoch=21-val_acc=0.88-val_loss=2.22_bb_finetuned_w_CMDFD.ckpt' 
-model = LightningDeepFakeDetection_V2.load_from_checkpoint(path, map_location=device).eval()
+model = LightningDeepFakeDetection_V2()#.load_from_checkpoint(path, map_location=device).eval()
+checkpoint = torch.load(path,map_location=torch.device('cpu'))
+model.load_state_dict(checkpoint['state_dict'])
+model.eval();
 
 featmodel = LightningDeepFakeDetection_BB()#.load_from_checkpoint('models_lightning/BB/DeepFake_BB-epoch=11-val_acc=0.98-val_loss=0.46_FakeAVCeleb-v1.ckpt')
 featmodel.load_state_dict(torch.load('BB_mobilnet_weights_combined.pth', weights_only=False, map_location=device))
