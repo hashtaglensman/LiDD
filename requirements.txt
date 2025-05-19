@@ -7,5 +7,4 @@ opencv-python
 random
 flask
 os
-random
 lightning
