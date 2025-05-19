@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeepFake Detector</title>
+  <!-- Tailwind CSS via CDN for quick styling -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.5/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex flex-col items-center min-h-screen p-4">
+  <div class="w-full max-w-lg bg-white rounded-2xl shadow p-8">
+    <h1 class="text-2xl font-bold mb-6 text-center">DeepFake&nbsp;Detector</h1>
+
+    <!-- Video upload form -->
+    <form action="/predict" method="post" enctype="multipart/form-data" class="space-y-4">
+      <label class="block">
+        <span class="sr-only">Select a video file (.mp4)</span>
+        <input type="file" name="video" accept="video/mp4" required
+               class="block w-full text-sm text-gray-800 file:mr-4 file:py-2 file:px-4
+                      file:rounded-full file:border-0
+                      file:text-sm file:font-semibold
+                      file:bg-indigo-50 file:text-indigo-700
+                      hover:file:bg-indigo-100" />
+      </label>
+      <button type="submit" class="w-full py-2 px-4 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700">
+        Analyse&nbsp;Video
+      </button>
+    </form>
+
+    <!-- Prediction result -->
+    {% if pred %}
+      <div class="mt-6 p-4 rounded-xl bg-gray-50 text-center">
+        <p class="text-lg font-medium">Prediction:</p>
+        <p class="text-2xl font-bold mt-2">{{ pred }}</p>
+      </div>
+    {% endif %}
+  </div>
+
+  <footer class="mt-6 text-gray-500 text-sm">
+    &copy; {{ 2025 }} DeepFake&nbsp;Detector – Powered by Flask &amp; PyTorch
+  </footer>
+</body>
+</html>

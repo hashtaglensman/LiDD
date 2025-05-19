@@ -3,5 +3,7 @@ torch
 lightning
 opencv-python
 timm
-    
+torchvision
+collection
+random
 
