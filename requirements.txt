@@ -1,18 +1,9 @@
-flask
-lightning
-opencv-python
-timm
-torchvision
-random
-argparse
-numpy
-pillow
-scikit-image
-slidingwindow
-pandas
-scipy
-matplotlib
-seaborn
+-f --index-url https://download.pytorch.org/whl/cpu
 torch
-pytest
-mlflow
+torchvision
+pillow
+numpy
+opencv-python
+random
+flask
+os
