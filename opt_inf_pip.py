@@ -36,7 +36,7 @@ device = torch.device("cpu")
 class LightningDeepFakeDetection_BB(nn.Module):#L.ightningModule):
     def __init__(self):
         super().__init__()
-        self.model = torch.hub.load('pytorch/vision:v0.10.0', 'mobilenet_v2', pretrained=True)
+        self.model = torch.hub.load('pytorch/vision:v0.10.0', 'mobilenet_v2', weights=None)
         self.clf_layer = nn.Linear(1000,2)
 
     def forward(self, inputs):
@@ -198,7 +198,7 @@ def _batched_features(frames: Sequence[Image.Image]) -> torch.Tensor:
             feats = featmodel(batch)  # (B, F)
     return CustomNormalize()(feats)
 
-def pred_cred(video_path: str, subset_sizes: Sequence[int] = (15, 20, 30)) -> int:
+def pred_cred(video_path: str, subset_sizes: Sequence[int] = (15)) -> int: #(15, 20, 30)
     """Return the majority‑voted prediction for *video_path*.
 
     The video is scanned **once**.  The largest subset size dictates the number of
@@ -206,20 +206,30 @@ def pred_cred(video_path: str, subset_sizes: Sequence[int] = (15, 20, 30)) -> in
     """
     # open once just to know frame count (cheap)
     total = int(cv2.VideoCapture(video_path).get(cv2.CAP_PROP_FRAME_COUNT))
-    max_k = max(subset_sizes)
-    idxs = frame_indices(total, max_k)
+    # max_k = max(subset_sizes)
+    idxs = frame_indices(total, subset_sizes)
+    idxs1 = frame_indices(total, subset_sizes)
+    idxs2 = frame_indices(total, subset_sizes)
 
     # read frames & extract features
-    frames = sample_frames(video_path, idxs)
-    feats = _batched_features(frames)  # (max_k, F)
+    frames1 = sample_frames(video_path, idxs)
+    feats1 = _batched_features(frames1)  # (max_k, F)
+    frames2 = sample_frames(video_path, idxs1)
+    feats2 = _batched_features(frames2)  # (max_k, F)
+    frames3 = sample_frames(video_path, idxs2)
+    feats3 = _batched_features(frames3)  # (max_k, F)
 
     # classifier – single forward pass
     with torch.no_grad() and torch.inference_mode():
-            _, logits, _ = model(feats)
+            _, logits1, _ = model(feats1)
+            _, logits2, _ = model(feats2)
+            _, logits3, _ = model(feats3)
+            logits = (logits1 + logits2 + logits3)/3
     preds = logits.argmax(1).cpu().numpy()  # (max_k,)
 
     # majority vote per subset
-    majorities = [collections.Counter(preds[:k]).most_common(1)[0][0] for k in subset_sizes]
+    # majorities = [collections.Counter(preds[:k]).most_common(1)[0][0] for k in subset_sizes]
+    majorities = collections.Counter(preds).most_common(1)[0][0]
     # final decision – majority of majorities
-    final_pred =  int(round(sum(majorities) / len(majorities))) #int(round(np.mean(majorities)))
-    return final_pred
+    # final_pred =  int(round(sum(majorities) / len(majorities))) #int(round(np.mean(majorities)))
+    return majorities
