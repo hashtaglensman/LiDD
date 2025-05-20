@@ -17,7 +17,7 @@ Assumptions
 
 from __future__ import annotations
 from typing import List, Sequence
-import numpy as np
+# import numpy as np
 import torch
 from PIL import Image
 import torch, torch.nn as nn
@@ -198,7 +198,7 @@ def _batched_features(frames: Sequence[Image.Image]) -> torch.Tensor:
             feats = featmodel(batch)  # (B, F)
     return CustomNormalize()(feats)
 
-def pred_cred(video_path: str, subset_sizes: Sequence[int] = (10, 15, 20)) -> int:
+def pred_cred(video_path: str, subset_sizes: Sequence[int] = (15, 20, 30)) -> int:
     """Return the majority‑voted prediction for *video_path*.
 
     The video is scanned **once**.  The largest subset size dictates the number of
@@ -221,5 +221,5 @@ def pred_cred(video_path: str, subset_sizes: Sequence[int] = (10, 15, 20)) -> in
     # majority vote per subset
     majorities = [collections.Counter(preds[:k]).most_common(1)[0][0] for k in subset_sizes]
     # final decision – majority of majorities
-    final_pred = int(round(np.mean(majorities)))
+    final_pred =  int(round(sum(majorities) / len(majorities))) #int(round(np.mean(majorities)))
     return final_pred
