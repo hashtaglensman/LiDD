@@ -6,8 +6,8 @@
 # flask
 # requirements.txt  (CPU wheels + smaller OpenCV)
 --extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.6.0
-torchvision==0.21.0
+torch==2.3.0
+torchvision==0.18.0
 opencv-python-headless       # ∼28 MB instead of 63 MB
 pillow
 flask
