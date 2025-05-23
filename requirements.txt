@@ -8,7 +8,7 @@
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.2.0
 torchvision==0.17.0
-# opencv-python-headless       # ∼28 MB instead of 63 MB
+opencv-python-headless       # ∼28 MB instead of 63 MB
 pillow
 flask
 gunicorn                     # WSGI server for Heroku

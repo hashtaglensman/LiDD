@@ -221,10 +221,10 @@ def pred_cred(video_path: str, subset_sizes: Sequence[int] = (15)) -> int: #(15,
 
     # classifier – single forward pass
     with torch.no_grad() and torch.inference_mode():
-            _, logits1, _ = model(feats1)
-            _, logits2, _ = model(feats2)
-            _, logits3, _ = model(feats3)
-            logits = (logits1 + logits2 + logits3)/3
+        _, logits1, _ = model(feats1)
+        _, logits2, _ = model(feats2)
+        _, logits3, _ = model(feats3)
+        logits = (logits1 + logits2 + logits3)/3
     preds = logits.argmax(1).cpu().numpy()  # (max_k,)
 
     # majority vote per subset
