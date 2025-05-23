@@ -1,6 +1,6 @@
-# 📦 Project Title
+# 📦 Towards Deepfake Detection for Everyone
 
-> One‑sentence elevator pitch that hooks readers.
+>  A Lightweight Deepfake Detection Algorithm (LiDD).
 
 <!-- Teaser Image -->
 
@@ -22,13 +22,13 @@
 
 ---
 
-## 🔗 Useful Links
+<!-- ## 🔗 Useful Links
 
 * 🌐 **Live Site:** [https://example.com](https://example.com)
 * 📖 **Documentation:** [https://example.com/docs](https://example.com/docs)
 * 🐛 **Issue Tracker:** [https://github.com/username/project/issues](https://github.com/username/project/issues)
 
----
+--- -->
 
 ## 📑 Table of Contents
 
