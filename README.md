@@ -16,7 +16,9 @@
 <!-- GitHub renders HTML video tags. Alternatively link to YouTube. -->
 
 <p align="center">
-  <video src="docs/test.mp4" controls width="600"></video>
+  <!-- <video src="docs/test.mp4" controls width="600"></video> -->
+<img src="docs/demo.gif" alt="Databay showcase gif" title="Databay showcase gif" width="500"/>
+
 </p>
 <!-- Or, if you prefer YouTube: https://youtu.be/XXXXXXXX -->
 
