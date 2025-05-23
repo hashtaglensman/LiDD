@@ -16,7 +16,7 @@
 <!-- GitHub renders HTML video tags. Alternatively link to YouTube. -->
 
 <p align="center">
-  <video src="assets/demo.mp4" controls width="600"></video>
+  <video src="docs/test.mp4" controls width="600"></video>
 </p>
 <!-- Or, if you prefer YouTube: https://youtu.be/XXXXXXXX -->
 
