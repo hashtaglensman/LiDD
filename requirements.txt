@@ -1,10 +1,16 @@
+# -f --index-url https://download.pytorch.org/whl/cpu
+# torch
+# torchvision
+# pillow
+# opencv-python
+# flask
 # requirements.txt  (CPU wheels + smaller OpenCV)
+# --extra-index-url https://download.pytorch.org/whl/cpu
 # torch==2.2.0
 # torchvision==0.17.0
 --extra-index-url https://download.pytorch.org/whl/cpu
-
-torch==1.13.1+cpu
-torchvision==0.14.1+cpu
+torch==2.2.0+cpu              # Use the CPU-only version
+torchvision==0.17.0+cpu       # CPU-only version for torchvision
 opencv-python-headless       # ∼28 MB instead of 63 MB
 pillow
 flask
